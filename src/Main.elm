@@ -3,7 +3,7 @@ import Browser
 
 
 type Msg
-    = MsgUrlChanged Url.Url
+    = MsgUrlChanged Url.Url 
     | MsgUrlRequested Browser.UrlRequest
     | MsgSelectorPage 
     | MsgGamePage
