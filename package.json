@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "elm-live src/Main.elm -- --debug --output=index.js",
     "compile": "elm make src/Main.elm --output=index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

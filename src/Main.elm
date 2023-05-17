@@ -1,19 +1,38 @@
 module Main exposing (..)
+
 import Browser
+import Browser.Navigation
+import Html
+import Url
 
 
 type Msg
-    = MsgUrlChanged Url.Url 
-    | MsgUrlRequested Browser.UrlRequest
-    | MsgSelectorPage 
-    | MsgGamePage
+    = MsgDummy
 
-type alias Model {
-     url : Url.Url
-    , navigationKey : Browser.Navigation.Key
-    , modelSelectorPage : SelectorPage.Model
-    , modelGame : GamePage.Model
+
+
+--= MsgUrlChanged Url.Url
+--| MsgUrlRequested Browser.UrlRequest
+--| MsgSelectorPage
+--| MsgGamePage
+
+
+type alias Model =
+    { title : String
     }
+
+
+
+--url : Url.Url
+--, navigationKey : Browser.Navigation.Key
+--, modelSelectorPage : SelectorPage.Model
+--, modelGame : GamePage.Model
+
+
+initModel =
+    { title = "Hello Navigation"
+    }
+
 
 main : Program () Model Msg
 main =
@@ -26,7 +45,40 @@ main =
         , onUrlRequest = onUrlRequest
         }
 
-init : () -> Url.Url -> Navigation.Key -> ( model, Cmd msg )
-init _  url navigationKey= 
-    (initModel url navigationKey, Cmd.none)
 
+init : () -> Url.Url -> Browser.Navigation.Key -> ( Model, Cmd Msg )
+init _ url navigationKey =
+    ( initModel, Cmd.none )
+
+
+view : Model -> Browser.Document Msg
+view model =
+    { title = "Test"
+    , body = [ viewContent ]
+    }
+
+
+viewContent =
+    Html.text "Test"
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        MsgDummy ->
+            ( model, Cmd.none )
+
+
+subscriptions : model -> Sub msg
+subscriptions model =
+    Sub.none
+
+
+onUrlChange : Url.Url -> Msg
+onUrlChange url =
+    MsgDummy
+
+
+onUrlRequest : Browser.UrlRequest -> Msg
+onUrlRequest urlRequest =
+    MsgDummy
