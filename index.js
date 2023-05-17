@@ -10576,10 +10576,105 @@ var $author$project$Main$update = F2(
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
 var $author$project$Main$viewContent = $elm$html$Html$text('Test');
+var $author$project$Main$viewFooter = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('footer')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('footer-line')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href('https://github.com')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('GitHub')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('footer-line')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href('https://twitter.com')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Twitter')
+						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('footer-line')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href('https://youtube.com')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('YouTube')
+						]))
+				]))
+		]));
+var $author$project$Main$viewHeader = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('header')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('header-buttons')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('Restart Game')
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('header-title')
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text('DevWars')
+				]))
+		]));
 var $author$project$Main$view = function (model) {
 	return {
 		body: _List_fromArray(
-			[$author$project$Main$viewContent]),
+			[$author$project$Main$viewHeader, $author$project$Main$viewContent, $author$project$Main$viewFooter]),
 		title: 'Test'
 	};
 };

@@ -1,0 +1,53 @@
+/* Estilos generales del encabezado */
+
+.header {
+  display: block;
+  background-color: #616161;
+  height: 70px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+/* Estilos de los botones */
+.header-buttons {
+  display: block;
+  float: left;
+  height: 100%;
+  width: 120px;
+  color: #ffffff;
+  background-color: #616161;
+}
+
+/* Estilos del texto "DevWars" */
+.header-title {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 45%;
+  color: white;
+}
+
+/*Diseño del Footer*/
+.footer {
+  background-color: #ccc;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-line {
+  margin-bottom: 10px;
+}
+
+.footer-line a {
+  color: #fff;
+  text-decoration: none;
+}

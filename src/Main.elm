@@ -3,6 +3,7 @@ module Main exposing (..)
 import Browser
 import Browser.Navigation
 import Html
+import Html.Attributes exposing (class, style)
 import Url
 
 
@@ -54,12 +55,29 @@ init _ url navigationKey =
 view : Model -> Browser.Document Msg
 view model =
     { title = "Test"
-    , body = [ viewContent ]
+    , body = [ viewHeader, viewContent, viewFooter ]
     }
+
+
+viewHeader =
+    Html.div [ class "header" ]
+        [ Html.button [ class "header-buttons" ] [ Html.text "Restart Game" ]
+
+        --, Html.button [ class "header-buttons" ] [ Html.text "GitHub" ]
+        , Html.div [ class "header-title" ] [ Html.text "DevWars" ]
+        ]
 
 
 viewContent =
     Html.text "Test"
+
+
+viewFooter =
+    Html.div [ class "footer" ]
+        [ Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://github.com" ] [ Html.text "GitHub" ] ]
+        , Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://twitter.com" ] [ Html.text "Twitter" ] ]
+        , Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://youtube.com" ] [ Html.text "YouTube" ] ]
+        ]
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
