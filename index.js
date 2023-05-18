@@ -10575,7 +10575,107 @@ var $author$project$Main$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
-var $author$project$Main$viewContent = $elm$html$Html$text('Test');
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $author$project$Main$viewContent = A2(
+	$elm$html$Html$div,
+	_List_fromArray(
+		[
+			$elm$html$Html$Attributes$class('square')
+		]),
+	_List_fromArray(
+		[
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('button-container')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src('images/elm.png'),
+									$elm$html$Html$Attributes$alt('Imagen 1')
+								]),
+							_List_Nil),
+							$elm$html$Html$text('Elm')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src('images/java.png'),
+									$elm$html$Html$Attributes$alt('Imagen 2')
+								]),
+							_List_Nil),
+							$elm$html$Html$text('Java')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src('images/c-sharp.png'),
+									$elm$html$Html$Attributes$alt('Imagen 3')
+								]),
+							_List_Nil),
+							$elm$html$Html$text('C#')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src('images/kotlin.png'),
+									$elm$html$Html$Attributes$alt('Imagen 4')
+								]),
+							_List_Nil),
+							$elm$html$Html$text('Kotlin')
+						])),
+					A2(
+					$elm$html$Html$button,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src('images/typescript.png'),
+									$elm$html$Html$Attributes$alt('Imagen 5')
+								]),
+							_List_Nil),
+							$elm$html$Html$text('TypeScript')
+						]))
+				]))
+		]));
 var $author$project$Main$viewFooter = A2(
 	$elm$html$Html$div,
 	_List_fromArray(

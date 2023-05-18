@@ -2,8 +2,8 @@ module Main exposing (..)
 
 import Browser
 import Browser.Navigation
-import Html
-import Html.Attributes exposing (class, style)
+import Html exposing (button, div, img, text)
+import Html.Attributes exposing (alt, class, src, style)
 import Url
 
 
@@ -59,17 +59,50 @@ view model =
     }
 
 
+
+--this header is fix
+
+
 viewHeader =
     Html.div [ class "header" ]
         [ Html.button [ class "header-buttons" ] [ Html.text "Restart Game" ]
-
-        --, Html.button [ class "header-buttons" ] [ Html.text "GitHub" ]
         , Html.div [ class "header-title" ] [ Html.text "DevWars" ]
         ]
 
 
+
+--this is the content the value change depend on the Page
+
+
 viewContent =
-    Html.text "Test"
+    Html.div [ class "square" ]
+        [ div [ class "button-container" ]
+            [ button []
+                [ img [ src "images/elm.png", alt "Imagen 1" ] []
+                , text "Elm"
+                ]
+            , button []
+                [ img [ src "images/java.png", alt "Imagen 2" ] []
+                , text "Java"
+                ]
+            , button []
+                [ img [ src "images/c-sharp.png", alt "Imagen 3" ] []
+                , text "C#"
+                ]
+            , button []
+                [ img [ src "images/kotlin.png", alt "Imagen 4" ] []
+                , text "Kotlin"
+                ]
+            , button []
+                [ img [ src "images/typescript.png", alt "Imagen 5" ] []
+                , text "TypeScript"
+                ]
+            ]
+        ]
+
+
+
+--this footer is fix
 
 
 viewFooter =
