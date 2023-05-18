@@ -98,6 +98,9 @@ viewContent =
                 , text "TypeScript"
                 ]
             ]
+        , div [ class "button-start-container" ]
+            [ button [ class "button-start" ] [ text "Start" ]
+            ]
         ]
 
 

@@ -10674,6 +10674,25 @@ var $author$project$Main$viewContent = A2(
 							_List_Nil),
 							$elm$html$Html$text('TypeScript')
 						]))
+				])),
+			A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('button-start-container')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$button,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('button-start')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text('Start')
+						]))
 				]))
 		]));
 var $author$project$Main$viewFooter = A2(

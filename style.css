@@ -86,6 +86,22 @@
   height: 70px;
 }
 
+.button-start-container{
+  margin-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.button-start{
+  align-items: center;
+  height: 60px;
+  width: 120px;
+  color: #ffffff;
+  border: none;
+  background-color: #001233;
+}
 /*FONTS*/
 @font-face {
   font-family: 'TitleFont';
