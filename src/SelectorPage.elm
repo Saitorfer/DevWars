@@ -1,21 +1,27 @@
 module SelectorPage exposing (..)
 
+import Browser.Navigation
 import Html exposing (button, div, img, text)
 import Html.Attributes exposing (alt, class, src)
+import Html.Events exposing (onClick)
+import Router
 
 
 type Msg
     = MsgSelectLanguage
     | MsgStartGame
+    | MsgValidateGameStart
 
 
 type alias Model =
     { selectedLanguage : Maybe String
+    , navigationKey : Browser.Navigation.Key
     }
 
 
-initModel =
+initModel navigationKey =
     { selectedLanguage = Nothing
+    , navigationKey = navigationKey
     }
 
 
@@ -44,19 +50,23 @@ view model =
                 ]
             ]
         , div [ class "button-start-container" ]
-            [ button [ class "button-start" ] [ text "Start" ]
+            [ button [ class "button-start", onClick MsgValidateGameStart ] [ text "Start" ]
             ]
         ]
 
 
-update : Msg -> Model -> ( Model, Cmd.Cmd Msg )
+update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
         MsgSelectLanguage ->
             ( model, Cmd.none )
 
         MsgStartGame ->
-            ( model, Cmd.none )
+            ( model, Browser.Navigation.pushUrl model.navigationKey (Router.asPath Router.RouteGamePage) )
+
+        MsgValidateGameStart ->
+            --The MsgStartGame give us the (model,cmd)
+            update MsgStartGame model
 
 
 subscriptions : Model -> Sub Msg

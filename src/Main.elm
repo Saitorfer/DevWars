@@ -29,7 +29,7 @@ initModel : Url.Url -> Browser.Navigation.Key -> Model
 initModel url navigationKey =
     { url = url
     , navigationKey = navigationKey
-    , modelSelectorPage = SelectorPage.initModel
+    , modelSelectorPage = SelectorPage.initModel navigationKey
     , modelGamePage = GamePage.initModel
     }
 

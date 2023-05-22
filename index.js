@@ -10572,10 +10572,17 @@ var $elm$core$Basics$never = function (_v0) {
 };
 var $elm$browser$Browser$application = _Browser_application;
 var $author$project$GamePage$initModel = {title: 'Test'};
-var $author$project$SelectorPage$initModel = {selectedLanguage: $elm$core$Maybe$Nothing};
+var $author$project$SelectorPage$initModel = function (navigationKey) {
+	return {navigationKey: navigationKey, selectedLanguage: $elm$core$Maybe$Nothing};
+};
 var $author$project$Main$initModel = F2(
 	function (url, navigationKey) {
-		return {modelGamePage: $author$project$GamePage$initModel, modelSelectorPage: $author$project$SelectorPage$initModel, navigationKey: navigationKey, url: url};
+		return {
+			modelGamePage: $author$project$GamePage$initModel,
+			modelSelectorPage: $author$project$SelectorPage$initModel(navigationKey),
+			navigationKey: navigationKey,
+			url: url
+		};
 	});
 var $author$project$Main$init = F3(
 	function (_v0, url, navigationKey) {
@@ -10673,12 +10680,36 @@ var $author$project$GamePage$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
+var $author$project$SelectorPage$MsgStartGame = {$: 'MsgStartGame'};
+var $author$project$Router$RouteGamePage = {$: 'RouteGamePage'};
+var $author$project$Router$asPath = function (route) {
+	if (route.$ === 'RouteSelectorPage') {
+		return '/';
+	} else {
+		return '/game';
+	}
+};
 var $author$project$SelectorPage$update = F2(
 	function (msg, model) {
-		if (msg.$ === 'MsgSelectLanguage') {
-			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-		} else {
-			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		update:
+		while (true) {
+			switch (msg.$) {
+				case 'MsgSelectLanguage':
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				case 'MsgStartGame':
+					return _Utils_Tuple2(
+						model,
+						A2(
+							$elm$browser$Browser$Navigation$pushUrl,
+							model.navigationKey,
+							$author$project$Router$asPath($author$project$Router$RouteGamePage)));
+				default:
+					var $temp$msg = $author$project$SelectorPage$MsgStartGame,
+						$temp$model = model;
+					msg = $temp$msg;
+					model = $temp$model;
+					continue update;
+			}
 		}
 	});
 var $author$project$Main$update = F2(
@@ -10943,7 +10974,6 @@ var $elm$url$Url$Parser$parse = F2(
 					url.fragment,
 					$elm$core$Basics$identity)));
 	});
-var $author$project$Router$RouteGamePage = {$: 'RouteGamePage'};
 var $author$project$Router$RouteSelectorPage = {$: 'RouteSelectorPage'};
 var $elm$url$Url$Parser$Parser = function (a) {
 	return {$: 'Parser', a: a};
@@ -11043,6 +11073,7 @@ var $author$project$GamePage$view = function (model) {
 			]),
 		_List_Nil);
 };
+var $author$project$SelectorPage$MsgValidateGameStart = {$: 'MsgValidateGameStart'};
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$Attributes$src = function (url) {
@@ -11156,7 +11187,8 @@ var $author$project$SelectorPage$view = function (model) {
 						$elm$html$Html$button,
 						_List_fromArray(
 							[
-								$elm$html$Html$Attributes$class('button-start')
+								$elm$html$Html$Attributes$class('button-start'),
+								$elm$html$Html$Events$onClick($author$project$SelectorPage$MsgValidateGameStart)
 							]),
 						_List_fromArray(
 							[
@@ -11199,4 +11231,4 @@ var $author$project$Main$view = function (model) {
 var $author$project$Main$main = $elm$browser$Browser$application(
 	{init: $author$project$Main$init, onUrlChange: $author$project$Main$onUrlChange, onUrlRequest: $author$project$Main$onUrlRequest, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Main.Msg":{"args":[],"tags":{"MsgUrlChanged":["Url.Url"],"MsgUrlRequested":["Browser.UrlRequest"],"MsgSelectorPage":["SelectorPage.Msg"],"MsgGamePage":["GamePage.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"GamePage.Msg":{"args":[],"tags":{"MsgDummy":[]}},"SelectorPage.Msg":{"args":[],"tags":{"MsgSelectLanguage":[],"MsgStartGame":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Main.Msg":{"args":[],"tags":{"MsgUrlChanged":["Url.Url"],"MsgUrlRequested":["Browser.UrlRequest"],"MsgSelectorPage":["SelectorPage.Msg"],"MsgGamePage":["GamePage.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"GamePage.Msg":{"args":[],"tags":{"MsgDummy":[]}},"SelectorPage.Msg":{"args":[],"tags":{"MsgSelectLanguage":[],"MsgStartGame":[],"MsgValidateGameStart":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
