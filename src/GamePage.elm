@@ -1,6 +1,6 @@
 module GamePage exposing (..)
 
-import Html exposing (button, div, img, text)
+import Html exposing (button, div, img, main_, text)
 import Html.Attributes exposing (alt, class, src)
 
 
@@ -31,5 +31,5 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none

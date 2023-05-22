@@ -2,7 +2,7 @@ module SelectorPage exposing (..)
 
 import Browser.Navigation
 import Html exposing (button, div, img, text)
-import Html.Attributes exposing (alt, class, classList, src)
+import Html.Attributes exposing (alt, class, src)
 import Html.Events exposing (onClick)
 import Router
 
@@ -55,30 +55,26 @@ update msg model =
 
         MsgValidateGameStart ->
             --The MsgStartGame give us the (model,cmd) | recursividad
-            update MsgStartGame model
+            if isNotNull model then
+                update MsgStartGame model
+
+            else
+                update MsgErrorLanguage model
 
         MsgErrorLanguage ->
             ( { model | error = "Please select a Language to play" }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
 viewButton : Model -> String -> Html.Html Msg
 viewButton model language =
     let
-        isSelected =
-            case model.selectedLanguage of
-                Just selected ->
-                    selected == language
-
-                Nothing ->
-                    False
-
         buttonClass =
-            if isSelected then
+            if isSelected model language then
                 "selected-button"
 
             else
@@ -88,3 +84,21 @@ viewButton model language =
         [ img [ src ("images/" ++ language ++ ".png"), alt ("Imagen " ++ language) ] []
         , text language
         ]
+
+
+isSelected model language =
+    case model.selectedLanguage of
+        Just selected ->
+            selected == language
+
+        Nothing ->
+            False
+
+
+isNotNull model =
+    case model.selectedLanguage of
+        Just language ->
+            True
+
+        Nothing ->
+            False

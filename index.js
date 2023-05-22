@@ -10610,10 +10610,10 @@ var $author$project$Main$MsgSelectorPage = function (a) {
 };
 var $elm$core$Platform$Sub$batch = _Platform_batch;
 var $elm$core$Platform$Sub$none = $elm$core$Platform$Sub$batch(_List_Nil);
-var $author$project$GamePage$subscriptions = function (model) {
+var $author$project$GamePage$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
-var $author$project$SelectorPage$subscriptions = function (model) {
+var $author$project$SelectorPage$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
 var $author$project$Main$subscriptions = function (model) {
@@ -10680,6 +10680,7 @@ var $author$project$GamePage$update = F2(
 	function (msg, model) {
 		return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 	});
+var $author$project$SelectorPage$MsgErrorLanguage = {$: 'MsgErrorLanguage'};
 var $author$project$SelectorPage$MsgStartGame = {$: 'MsgStartGame'};
 var $author$project$Router$RouteGamePage = {$: 'RouteGamePage'};
 var $author$project$Router$asPath = function (route) {
@@ -10687,6 +10688,15 @@ var $author$project$Router$asPath = function (route) {
 		return '/';
 	} else {
 		return '/game';
+	}
+};
+var $author$project$SelectorPage$isNotNull = function (model) {
+	var _v0 = model.selectedLanguage;
+	if (_v0.$ === 'Just') {
+		var language = _v0.a;
+		return true;
+	} else {
+		return false;
 	}
 };
 var $author$project$SelectorPage$update = F2(
@@ -10711,11 +10721,19 @@ var $author$project$SelectorPage$update = F2(
 							model.navigationKey,
 							$author$project$Router$asPath($author$project$Router$RouteGamePage)));
 				case 'MsgValidateGameStart':
-					var $temp$msg = $author$project$SelectorPage$MsgStartGame,
-						$temp$model = model;
-					msg = $temp$msg;
-					model = $temp$model;
-					continue update;
+					if ($author$project$SelectorPage$isNotNull(model)) {
+						var $temp$msg = $author$project$SelectorPage$MsgStartGame,
+							$temp$model = model;
+						msg = $temp$msg;
+						model = $temp$model;
+						continue update;
+					} else {
+						var $temp$msg = $author$project$SelectorPage$MsgErrorLanguage,
+							$temp$model = model;
+						msg = $temp$msg;
+						model = $temp$model;
+						continue update;
+					}
 				default:
 					return _Utils_Tuple2(
 						_Utils_update(
@@ -11092,6 +11110,16 @@ var $author$project$SelectorPage$MsgSelectLanguage = function (a) {
 };
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$img = _VirtualDom_node('img');
+var $author$project$SelectorPage$isSelected = F2(
+	function (model, language) {
+		var _v0 = model.selectedLanguage;
+		if (_v0.$ === 'Just') {
+			var selected = _v0.a;
+			return _Utils_eq(selected, language);
+		} else {
+			return false;
+		}
+	});
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -11100,16 +11128,7 @@ var $elm$html$Html$Attributes$src = function (url) {
 };
 var $author$project$SelectorPage$viewButton = F2(
 	function (model, language) {
-		var isSelected = function () {
-			var _v0 = model.selectedLanguage;
-			if (_v0.$ === 'Just') {
-				var selected = _v0.a;
-				return _Utils_eq(selected, language);
-			} else {
-				return false;
-			}
-		}();
-		var buttonClass = isSelected ? 'selected-button' : 'button';
+		var buttonClass = A2($author$project$SelectorPage$isSelected, model, language) ? 'selected-button' : 'button';
 		return A2(
 			$elm$html$Html$button,
 			_List_fromArray(
