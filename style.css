@@ -102,6 +102,10 @@
   border: none;
   background-color: #001233;
 }
+
+button.selected-button {
+  background-color: gray;
+}
 /*FONTS*/
 @font-face {
   font-family: 'TitleFont';

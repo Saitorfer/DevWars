@@ -2,52 +2,41 @@ module SelectorPage exposing (..)
 
 import Browser.Navigation
 import Html exposing (button, div, img, text)
-import Html.Attributes exposing (alt, class, src)
+import Html.Attributes exposing (alt, class, classList, src)
 import Html.Events exposing (onClick)
 import Router
 
 
 type Msg
-    = MsgSelectLanguage
+    = MsgSelectLanguage String
     | MsgStartGame
     | MsgValidateGameStart
+    | MsgErrorLanguage
 
 
 type alias Model =
     { selectedLanguage : Maybe String
     , navigationKey : Browser.Navigation.Key
+    , error : String
     }
 
 
 initModel navigationKey =
     { selectedLanguage = Nothing
     , navigationKey = navigationKey
+    , error = ""
     }
 
 
+view : Model -> Html.Html Msg
 view model =
-    Html.div [ class "square" ]
+    div [ class "square" ]
         [ div [ class "button-container" ]
-            [ button []
-                [ img [ src "images/elm.png", alt "Imagen 1" ] []
-                , text "Elm"
-                ]
-            , button []
-                [ img [ src "images/java.png", alt "Imagen 2" ] []
-                , text "Java"
-                ]
-            , button []
-                [ img [ src "images/c-sharp.png", alt "Imagen 3" ] []
-                , text "C#"
-                ]
-            , button []
-                [ img [ src "images/kotlin.png", alt "Imagen 4" ] []
-                , text "Kotlin"
-                ]
-            , button []
-                [ img [ src "images/typescript.png", alt "Imagen 5" ] []
-                , text "TypeScript"
-                ]
+            [ viewButton model "elm"
+            , viewButton model "java"
+            , viewButton model "c-sharp"
+            , viewButton model "kotlin"
+            , viewButton model "typescript"
             ]
         , div [ class "button-start-container" ]
             [ button [ class "button-start", onClick MsgValidateGameStart ] [ text "Start" ]
@@ -58,17 +47,44 @@ view model =
 update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
-        MsgSelectLanguage ->
-            ( model, Cmd.none )
+        MsgSelectLanguage language ->
+            ( { model | selectedLanguage = Just language }, Cmd.none )
 
         MsgStartGame ->
             ( model, Browser.Navigation.pushUrl model.navigationKey (Router.asPath Router.RouteGamePage) )
 
         MsgValidateGameStart ->
-            --The MsgStartGame give us the (model,cmd)
+            --The MsgStartGame give us the (model,cmd) | recursividad
             update MsgStartGame model
+
+        MsgErrorLanguage ->
+            ( { model | error = "Please select a Language to play" }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+viewButton : Model -> String -> Html.Html Msg
+viewButton model language =
+    let
+        isSelected =
+            case model.selectedLanguage of
+                Just selected ->
+                    selected == language
+
+                Nothing ->
+                    False
+
+        buttonClass =
+            if isSelected then
+                "selected-button"
+
+            else
+                "button"
+    in
+    button [ class buttonClass, onClick (MsgSelectLanguage language) ]
+        [ img [ src ("images/" ++ language ++ ".png"), alt ("Imagen " ++ language) ] []
+        , text language
+        ]

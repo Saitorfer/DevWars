@@ -10573,7 +10573,7 @@ var $elm$core$Basics$never = function (_v0) {
 var $elm$browser$Browser$application = _Browser_application;
 var $author$project$GamePage$initModel = {title: 'Test'};
 var $author$project$SelectorPage$initModel = function (navigationKey) {
-	return {navigationKey: navigationKey, selectedLanguage: $elm$core$Maybe$Nothing};
+	return {error: '', navigationKey: navigationKey, selectedLanguage: $elm$core$Maybe$Nothing};
 };
 var $author$project$Main$initModel = F2(
 	function (url, navigationKey) {
@@ -10695,7 +10695,14 @@ var $author$project$SelectorPage$update = F2(
 		while (true) {
 			switch (msg.$) {
 				case 'MsgSelectLanguage':
-					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+					var language = msg.a;
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{
+								selectedLanguage: $elm$core$Maybe$Just(language)
+							}),
+						$elm$core$Platform$Cmd$none);
 				case 'MsgStartGame':
 					return _Utils_Tuple2(
 						model,
@@ -10703,12 +10710,18 @@ var $author$project$SelectorPage$update = F2(
 							$elm$browser$Browser$Navigation$pushUrl,
 							model.navigationKey,
 							$author$project$Router$asPath($author$project$Router$RouteGamePage)));
-				default:
+				case 'MsgValidateGameStart':
 					var $temp$msg = $author$project$SelectorPage$MsgStartGame,
 						$temp$model = model;
 					msg = $temp$msg;
 					model = $temp$model;
 					continue update;
+				default:
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{error: 'Please select a Language to play'}),
+						$elm$core$Platform$Cmd$none);
 			}
 		}
 	});
@@ -11074,6 +11087,9 @@ var $author$project$GamePage$view = function (model) {
 		_List_Nil);
 };
 var $author$project$SelectorPage$MsgValidateGameStart = {$: 'MsgValidateGameStart'};
+var $author$project$SelectorPage$MsgSelectLanguage = function (a) {
+	return {$: 'MsgSelectLanguage', a: a};
+};
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$Attributes$src = function (url) {
@@ -11082,6 +11098,39 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
+var $author$project$SelectorPage$viewButton = F2(
+	function (model, language) {
+		var isSelected = function () {
+			var _v0 = model.selectedLanguage;
+			if (_v0.$ === 'Just') {
+				var selected = _v0.a;
+				return _Utils_eq(selected, language);
+			} else {
+				return false;
+			}
+		}();
+		var buttonClass = isSelected ? 'selected-button' : 'button';
+		return A2(
+			$elm$html$Html$button,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class(buttonClass),
+					$elm$html$Html$Events$onClick(
+					$author$project$SelectorPage$MsgSelectLanguage(language))
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$img,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$src('images/' + (language + '.png')),
+							$elm$html$Html$Attributes$alt('Imagen ' + language)
+						]),
+					_List_Nil),
+					$elm$html$Html$text(language)
+				]));
+	});
 var $author$project$SelectorPage$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -11099,81 +11148,11 @@ var $author$project$SelectorPage$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$button,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('images/elm.png'),
-										$elm$html$Html$Attributes$alt('Imagen 1')
-									]),
-								_List_Nil),
-								$elm$html$Html$text('Elm')
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('images/java.png'),
-										$elm$html$Html$Attributes$alt('Imagen 2')
-									]),
-								_List_Nil),
-								$elm$html$Html$text('Java')
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('images/c-sharp.png'),
-										$elm$html$Html$Attributes$alt('Imagen 3')
-									]),
-								_List_Nil),
-								$elm$html$Html$text('C#')
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('images/kotlin.png'),
-										$elm$html$Html$Attributes$alt('Imagen 4')
-									]),
-								_List_Nil),
-								$elm$html$Html$text('Kotlin')
-							])),
-						A2(
-						$elm$html$Html$button,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('images/typescript.png'),
-										$elm$html$Html$Attributes$alt('Imagen 5')
-									]),
-								_List_Nil),
-								$elm$html$Html$text('TypeScript')
-							]))
+						A2($author$project$SelectorPage$viewButton, model, 'elm'),
+						A2($author$project$SelectorPage$viewButton, model, 'java'),
+						A2($author$project$SelectorPage$viewButton, model, 'c-sharp'),
+						A2($author$project$SelectorPage$viewButton, model, 'kotlin'),
+						A2($author$project$SelectorPage$viewButton, model, 'typescript')
 					])),
 				A2(
 				$elm$html$Html$div,
@@ -11231,4 +11210,4 @@ var $author$project$Main$view = function (model) {
 var $author$project$Main$main = $elm$browser$Browser$application(
 	{init: $author$project$Main$init, onUrlChange: $author$project$Main$onUrlChange, onUrlRequest: $author$project$Main$onUrlRequest, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
-	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Main.Msg":{"args":[],"tags":{"MsgUrlChanged":["Url.Url"],"MsgUrlRequested":["Browser.UrlRequest"],"MsgSelectorPage":["SelectorPage.Msg"],"MsgGamePage":["GamePage.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"GamePage.Msg":{"args":[],"tags":{"MsgDummy":[]}},"SelectorPage.Msg":{"args":[],"tags":{"MsgSelectLanguage":[],"MsgStartGame":[],"MsgValidateGameStart":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
+	$elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.1"},"types":{"message":"Main.Msg","aliases":{"Url.Url":{"args":[],"type":"{ protocol : Url.Protocol, host : String.String, port_ : Maybe.Maybe Basics.Int, path : String.String, query : Maybe.Maybe String.String, fragment : Maybe.Maybe String.String }"}},"unions":{"Main.Msg":{"args":[],"tags":{"MsgUrlChanged":["Url.Url"],"MsgUrlRequested":["Browser.UrlRequest"],"MsgSelectorPage":["SelectorPage.Msg"],"MsgGamePage":["GamePage.Msg"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"GamePage.Msg":{"args":[],"tags":{"MsgDummy":[]}},"SelectorPage.Msg":{"args":[],"tags":{"MsgSelectLanguage":["String.String"],"MsgStartGame":[],"MsgValidateGameStart":[],"MsgErrorLanguage":[]}},"Url.Protocol":{"args":[],"tags":{"Http":[],"Https":[]}},"String.String":{"args":[],"tags":{"String":[]}},"Browser.UrlRequest":{"args":[],"tags":{"Internal":["Url.Url"],"External":["String.String"]}}}}})}});}(this));
