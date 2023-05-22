@@ -10693,7 +10693,6 @@ var $author$project$Router$asPath = function (route) {
 var $author$project$SelectorPage$isNotNull = function (model) {
 	var _v0 = model.selectedLanguage;
 	if (_v0.$ === 'Just') {
-		var language = _v0.a;
 		return true;
 	} else {
 		return false;
@@ -10738,7 +10737,7 @@ var $author$project$SelectorPage$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{error: 'Please select a Language to play'}),
+							{error: 'Please select a language to play'}),
 						$elm$core$Platform$Cmd$none);
 			}
 		}
@@ -11172,6 +11171,16 @@ var $author$project$SelectorPage$view = function (model) {
 						A2($author$project$SelectorPage$viewButton, model, 'c-sharp'),
 						A2($author$project$SelectorPage$viewButton, model, 'kotlin'),
 						A2($author$project$SelectorPage$viewButton, model, 'typescript')
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('error')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text(model.error)
 					])),
 				A2(
 				$elm$html$Html$div,

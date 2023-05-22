@@ -38,6 +38,7 @@ view model =
             , viewButton model "kotlin"
             , viewButton model "typescript"
             ]
+        , div [ class "error" ] [ text model.error ]
         , div [ class "button-start-container" ]
             [ button [ class "button-start", onClick MsgValidateGameStart ] [ text "Start" ]
             ]
@@ -62,7 +63,7 @@ update msg model =
                 update MsgErrorLanguage model
 
         MsgErrorLanguage ->
-            ( { model | error = "Please select a Language to play" }, Cmd.none )
+            ( { model | error = "Please select a language to play" }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -86,6 +87,7 @@ viewButton model language =
         ]
 
 
+isSelected : Model -> String -> Bool
 isSelected model language =
     case model.selectedLanguage of
         Just selected ->
@@ -95,9 +97,10 @@ isSelected model language =
             False
 
 
+isNotNull : Model -> Bool
 isNotNull model =
     case model.selectedLanguage of
-        Just language ->
+        Just _ ->
             True
 
         Nothing ->

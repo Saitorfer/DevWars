@@ -101,10 +101,17 @@
   color: #ffffff;
   border: none;
   background-color: #001233;
+  position: absolute;
 }
 
 button.selected-button {
   background-color: gray;
+}
+/**/
+.error{
+  text-align: center;
+  color: red;
+  padding-top: 20px;
 }
 /*FONTS*/
 @font-face {
