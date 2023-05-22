@@ -3,8 +3,8 @@ module Main exposing (..)
 import Browser
 import Browser.Navigation
 import GamePage
-import Html exposing (button, div, img, text)
-import Html.Attributes exposing (alt, class, src)
+import Html
+import Html.Attributes exposing (class)
 import Router
 import SelectorPage
 import Url
@@ -66,6 +66,7 @@ view model =
 --this header is fix
 
 
+viewHeader : Html.Html msg
 viewHeader =
     Html.div [ class "header" ]
         [ Html.button [ class "header-buttons" ] [ Html.text "Restart Game" ]
@@ -94,11 +95,21 @@ viewPage model =
 --this footer is fix
 
 
+viewFooter : Html.Html msg
 viewFooter =
     Html.div [ class "footer" ]
-        [ Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://github.com" ] [ Html.text "GitHub" ] ]
-        , Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://twitter.com" ] [ Html.text "Twitter" ] ]
-        , Html.div [ class "footer-line" ] [ Html.a [ Html.Attributes.href "https://youtube.com" ] [ Html.text "YouTube" ] ]
+        [ viewLink "https://github.com/Saitorfer" "GitHub"
+        , viewLink "https://twitter.com/saitorfer" "Twitter"
+        , viewLink "https://www.youtube.com/@saitorfer" "YouTube"
+        ]
+
+
+viewLink : String -> String -> Html.Html msg
+viewLink link text =
+    Html.div
+        [ class "footer-line" ]
+        [ Html.a [ Html.Attributes.href link, Html.Attributes.target "_blank" ]
+            [ Html.text text ]
         ]
 
 

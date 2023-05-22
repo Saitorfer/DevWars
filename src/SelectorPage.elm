@@ -21,6 +21,7 @@ type alias Model =
     }
 
 
+initModel : Browser.Navigation.Key -> Model
 initModel navigationKey =
     { selectedLanguage = Nothing
     , navigationKey = navigationKey

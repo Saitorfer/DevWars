@@ -10790,6 +10790,30 @@ var $author$project$Main$update = F2(
 					A2($elm$core$Platform$Cmd$map, $author$project$Main$MsgSelectorPage, cmdGamePage));
 		}
 	});
+var $elm$html$Html$Attributes$target = $elm$html$Html$Attributes$stringProperty('target');
+var $author$project$Main$viewLink = F2(
+	function (link, text) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('footer-line')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$href(link),
+							$elm$html$Html$Attributes$target('_blank')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(text)
+						]))
+				]));
+	});
 var $author$project$Main$viewFooter = A2(
 	$elm$html$Html$div,
 	_List_fromArray(
@@ -10798,63 +10822,9 @@ var $author$project$Main$viewFooter = A2(
 		]),
 	_List_fromArray(
 		[
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('footer-line')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://github.com')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('GitHub')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('footer-line')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://twitter.com')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('Twitter')
-						]))
-				])),
-			A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('footer-line')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$href('https://youtube.com')
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text('YouTube')
-						]))
-				]))
+			A2($author$project$Main$viewLink, 'https://github.com/Saitorfer', 'GitHub'),
+			A2($author$project$Main$viewLink, 'https://twitter.com/saitorfer', 'Twitter'),
+			A2($author$project$Main$viewLink, 'https://www.youtube.com/@saitorfer', 'YouTube')
 		]));
 var $author$project$Main$viewHeader = A2(
 	$elm$html$Html$div,
