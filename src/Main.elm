@@ -6,7 +6,7 @@ import GamePage
 import Html
 import Html.Attributes exposing (class)
 import Router
-import SelectorPage
+import SelectorPage exposing (Msg(..))
 import Url
 
 
@@ -144,7 +144,7 @@ update msg model =
                     GamePage.update msgGamePage model.modelGamePage
             in
             ( { model | modelGamePage = newGamePageModel }
-            , Cmd.map MsgSelectorPage cmdGamePage
+            , Cmd.map MsgGamePage cmdGamePage
             )
 
 
