@@ -47,19 +47,19 @@ initModel =
 
 initGame : Model -> Model
 initGame model =
-    { player = initPlayer model
-    , machine = initMachine model
+    { player = initPlayers model model.player.languageNumber
+    , machine = initPlayers model (randomNumber model.player.languageNumber)
     , round = 1
     , winner = Nothing
     }
 
 
-initPlayer : Model -> Player
-initPlayer model =
-    let
-        language =
-            model.player.languageNumber
-    in
+
+--init the player and machine parameters
+
+
+initPlayers : Model -> Int -> Player
+initPlayers model language =
     case language of
         1 ->
             { language = "java", attackList = javaAttacks, hp = 100, languageNumber = language }
@@ -80,32 +80,6 @@ initPlayer model =
             { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language }
 
 
-initMachine model =
-    let
-        --generate a number between 1 and 5 but exclude the number of the player
-        number =
-            randomNumber model.player.languageNumber
-    in
-    case number of
-        1 ->
-            { language = "java", attackList = javaAttacks, hp = 100, languageNumber = number }
-
-        2 ->
-            { language = "typescript", attackList = tsAttacks, hp = 100, languageNumber = number }
-
-        3 ->
-            { language = "kotlin", attackList = kotlinAttacks, hp = 100, languageNumber = number }
-
-        4 ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = number }
-
-        5 ->
-            { language = "c#", attackList = cAttacks, hp = 100, languageNumber = number }
-
-        _ ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = number }
-
-
 view : Model -> Html.Html Msg
 view model =
     Html.div [ class "square" ]
@@ -119,7 +93,7 @@ view model =
 
 
 
---all the viewa
+--all the views
 
 
 viewAttackButton : Attack -> Html.Html Msg
@@ -150,6 +124,10 @@ viewWinner model =
             [ button [ class "button-start", onClick MsgRestart ] [ text "Restart" ]
             ]
         ]
+
+
+
+--update
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
@@ -337,7 +315,7 @@ randomNumber excludedNum =
 
 
 
---attacks
+--attacks mocks
 
 
 javaAttacks : List Attack
