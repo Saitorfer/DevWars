@@ -80,12 +80,25 @@ viewHeader =
 
 viewPage : Model -> Html.Html Msg
 viewPage model =
+    let
+        --un console.log
+        _ =
+            Debug.log "modelo actual" model
+    in
     case Router.fromUrl model.url of
         Just Router.RouteSelectorPage ->
             Html.map MsgSelectorPage (SelectorPage.view model.modelSelectorPage)
 
         Just Router.RouteGamePage ->
-            Html.map MsgGamePage (GamePage.view model.modelGamePage)
+            --actualizar en un let in el model
+            let
+                language =
+                    converterLanguage <| model.modelSelectorPage.selectedLanguage
+
+                newModelGame =
+                    GamePage.initGame model.modelGamePage language
+            in
+            Html.map MsgGamePage (GamePage.view newModelGame)
 
         Nothing ->
             Html.text "Not found 404"
@@ -164,3 +177,29 @@ onUrlChange url =
 onUrlRequest : Browser.UrlRequest -> Msg
 onUrlRequest urlRequest =
     MsgUrlRequested urlRequest
+
+
+
+--converter language to Int
+
+
+converterLanguage : Maybe String -> Int
+converterLanguage language =
+    case language of
+        Just "java" ->
+            1
+
+        Just "typescript" ->
+            2
+
+        Just "kotlin" ->
+            3
+
+        Just "elm" ->
+            4
+
+        Just "c-sharp" ->
+            5
+
+        _ ->
+            4

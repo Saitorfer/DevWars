@@ -45,10 +45,10 @@ initModel =
     }
 
 
-initGame : Model -> Model
-initGame model =
-    { player = initPlayers model model.player.languageNumber
-    , machine = initPlayers model (randomNumber model.player.languageNumber)
+initGame : Model -> Int -> Model
+initGame model language =
+    { player = initPlayers model language
+    , machine = initPlayers model (randomNumber language)
     , round = 1
     , winner = Nothing
     }
@@ -166,7 +166,7 @@ update msg model =
             ( model, Cmd.none )
 
         MsgInitGame ->
-            ( initGame model, Cmd.none )
+            ( model, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
@@ -290,6 +290,7 @@ getFirstAttack model =
 
 
 --give an opponent
+--TODO implement the random import
 
 
 randomNumber : Int -> Int
