@@ -1,9 +1,9 @@
 module GamePage exposing (..)
 
-import Html exposing (button, div, img, main_, text)
+import Html exposing (button, div, img, text)
 import Html.Attributes exposing (alt, class, src)
 import Html.Events exposing (onClick)
-import List exposing (filter, indexedMap)
+import List
 
 
 type alias Attack =
@@ -17,6 +17,7 @@ type alias Player =
     , languageNumber : Int
     , attackList : List Attack
     , hp : Int
+    , image : String
     }
 
 
@@ -38,8 +39,8 @@ type Msg
 
 initModel : Model
 initModel =
-    { player = { language = "", attackList = [], hp = 0, languageNumber = 1 }
-    , machine = { language = "", attackList = [], hp = 0, languageNumber = 1 }
+    { player = { language = "", attackList = [], hp = 0, languageNumber = 1, image = "" }
+    , machine = { language = "", attackList = [], hp = 0, languageNumber = 1, image = "" }
     , round = 1
     , winner = Nothing
     }
@@ -59,25 +60,25 @@ initGame model language =
 
 
 initPlayers : Model -> Int -> Player
-initPlayers model language =
+initPlayers _ language =
     case language of
         1 ->
-            { language = "java", attackList = javaAttacks, hp = 100, languageNumber = language }
+            { language = "java", attackList = javaAttacks, hp = 100, languageNumber = language, image = "images/java.png" }
 
         2 ->
-            { language = "typescript", attackList = tsAttacks, hp = 100, languageNumber = language }
+            { language = "typescript", attackList = tsAttacks, hp = 100, languageNumber = language, image = "images/typescript.png" }
 
         3 ->
-            { language = "kotlin", attackList = kotlinAttacks, hp = 100, languageNumber = language }
+            { language = "kotlin", attackList = kotlinAttacks, hp = 100, languageNumber = language, image = "images/kotlin.png" }
 
         4 ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language }
+            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png" }
 
         5 ->
-            { language = "c#", attackList = cAttacks, hp = 100, languageNumber = language }
+            { language = "c#", attackList = cAttacks, hp = 100, languageNumber = language, image = "images/c-sharp.png" }
 
         _ ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language }
+            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png" }
 
 
 view : Model -> Html.Html Msg
@@ -88,7 +89,7 @@ view model =
                 viewWinner model
 
             Nothing ->
-                viewCombat model.player
+                viewCombat model.player model.machine
         ]
 
 
@@ -101,10 +102,32 @@ viewAttackButton attack =
     button [ class "buttonGame" ] [ text attack.name ]
 
 
-viewCombat : Player -> Html.Html Msg
-viewCombat player =
-    div [ class "buttonGame-container" ]
-        (List.map viewAttackButton player.attackList)
+viewCombat : Player -> Player -> Html.Html Msg
+viewCombat player machine =
+    let
+        hpText1 =
+            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt player.hp ]
+
+        hpText2 =
+            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt machine.hp ]
+
+        combatElements =
+            [ div [ class "image-container bottom-left-image" ]
+                [ img [ src player.image, alt "Imagen 1" ] []
+                , hpText1
+                ]
+            , div [ class "image-container top-right-image" ]
+                [ img [ src machine.image, alt "Imagen 2" ] []
+                , hpText2
+                ]
+            ]
+    in
+    div [ class "combat-container" ]
+        (combatElements
+            ++ [ div [ class "buttonGame-container" ]
+                    (List.map viewAttackButton player.attackList)
+               ]
+        )
 
 
 viewWinner : Model -> Html.Html Msg
@@ -175,7 +198,7 @@ subscriptions _ =
 
 
 initGameCmd : Model -> Cmd Msg
-initGameCmd model =
+initGameCmd _ =
     Cmd.none
 
 
@@ -330,10 +353,10 @@ javaAttacks =
 
 elmAttacks : List Attack
 elmAttacks =
-    [ { name = "Punch", damage = 5 }
-    , { name = "Kick", damage = 10 }
-    , { name = "Fireball", damage = 15 }
-    , { name = "Fireball", damage = 20 }
+    [ { name = "First class citizenship", damage = 5 }
+    , { name = "Immutable data structures", damage = 10 }
+    , { name = "Pure functions everywhere", damage = 15 }
+    , { name = "Friendliest error messages", damage = 20 }
     ]
 
 
