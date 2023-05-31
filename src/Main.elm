@@ -90,15 +90,7 @@ viewPage model =
             Html.map MsgSelectorPage (SelectorPage.view model.modelSelectorPage)
 
         Just Router.RouteGamePage ->
-            --actualizar en un let in el model
-            let
-                language =
-                    converterLanguage <| model.modelSelectorPage.selectedLanguage
-
-                newModelGame =
-                    GamePage.initGame model.modelGamePage language
-            in
-            Html.map MsgGamePage (GamePage.view newModelGame)
+            Html.map MsgGamePage (GamePage.view model.modelGamePage)
 
         Nothing ->
             Html.text "Not found 404"
@@ -130,7 +122,24 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgUrlChanged url ->
-            ( { model | url = url }, Cmd.none )
+            let
+                --update the modelGamePage with the init the first time /game is used
+                newModelGame =
+                    case Router.fromUrl url of
+                        Just Router.RouteGamePage ->
+                            let
+                                log1 =
+                                    Debug.log "Nutrias" model
+
+                                language =
+                                    converterLanguage <| model.modelSelectorPage.selectedLanguage
+                            in
+                            GamePage.initGame model.modelGamePage language
+
+                        _ ->
+                            model.modelGamePage
+            in
+            ( { model | url = url, modelGamePage = newModelGame }, Cmd.none )
 
         MsgUrlRequested urlRequest ->
             case urlRequest of

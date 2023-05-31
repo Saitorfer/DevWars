@@ -99,7 +99,7 @@ view model =
 
 viewAttackButton : Attack -> Html.Html Msg
 viewAttackButton attack =
-    button [ class "buttonGame" ] [ text attack.name ]
+    button [ class "buttonGame", onClick (MsgPlayerAttack attack.name) ] [ text attack.name ]
 
 
 viewCombat : Player -> Player -> Html.Html Msg
@@ -186,6 +186,7 @@ update msg model =
             update MsgMachineAttack newModel
 
         MsgRestart ->
+            --reenviar al selector
             ( model, Cmd.none )
 
         MsgInitGame ->
@@ -216,10 +217,10 @@ victory player machine =
             machine.hp
     in
     if hpPlayer == 0 then
-        Just "player"
+        Just "machine"
 
     else if hpMachine == 0 then
-        Just "machine"
+        Just "player"
 
     else
         Nothing
