@@ -1,9 +1,11 @@
 port module GamePage exposing (..)
 
+import Browser.Navigation
 import Html exposing (button, div, img, text)
 import Html.Attributes exposing (alt, class, src)
 import Html.Events exposing (onClick)
 import List
+import Router
 
 
 type alias Attack =
@@ -27,6 +29,7 @@ type alias Model =
     , round : Int
     , winner : Maybe String
     , randomNumber : Int
+    , navigationKey : Browser.Navigation.Key
     }
 
 
@@ -39,8 +42,8 @@ type Msg
     | GotRandomNumber Int
 
 
-initModel : Model
-initModel =
+initModel : Browser.Navigation.Key -> Model
+initModel navigationKey =
     let
         initPlayer =
             { language = ""
@@ -55,16 +58,18 @@ initModel =
     , round = 1
     , winner = Nothing
     , randomNumber = 0
+    , navigationKey = navigationKey
     }
 
 
-initGame : Model -> Int -> Model
-initGame model language =
+initGame : Browser.Navigation.Key -> Model -> Int -> Model
+initGame navigationKey model language =
     { player = initPlayers model language
     , machine = initPlayers model (randomNumber language)
     , round = 1
     , winner = Nothing
     , randomNumber = 0
+    , navigationKey = navigationKey
     }
 
 
@@ -199,8 +204,7 @@ update msg model =
             update GenerateRandomNumber newModel
 
         MsgRestart ->
-            --reenviar al selector
-            ( model, Cmd.none )
+            ( model, Browser.Navigation.pushUrl model.navigationKey (Router.asPath Router.RouteSelectorPage) )
 
         GenerateRandomNumber ->
             ( model, generateRandomNumber () )
@@ -217,7 +221,7 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     gotRandomNumber GotRandomNumber
 
 

@@ -30,7 +30,7 @@ initModel url navigationKey =
     { url = url
     , navigationKey = navigationKey
     , modelSelectorPage = SelectorPage.initModel navigationKey
-    , modelGamePage = GamePage.initModel
+    , modelGamePage = GamePage.initModel navigationKey
     }
 
 
@@ -134,7 +134,7 @@ update msg model =
                                 language =
                                     converterLanguage <| model.modelSelectorPage.selectedLanguage
                             in
-                            GamePage.initGame model.modelGamePage language
+                            GamePage.initGame model.navigationKey model.modelGamePage language
 
                         _ ->
                             model.modelGamePage
