@@ -41,8 +41,17 @@ type Msg
 
 initModel : Model
 initModel =
-    { player = { language = "", attackList = [], hp = 0, languageNumber = 1, image = "" }
-    , machine = { language = "", attackList = [], hp = 0, languageNumber = 1, image = "" }
+    let
+        initPlayer =
+            { language = ""
+            , attackList = []
+            , hp = 0
+            , languageNumber = 1
+            , image = ""
+            }
+    in
+    { player = initPlayer
+    , machine = initPlayer
     , round = 1
     , winner = Nothing
     , randomNumber = 0
@@ -187,21 +196,24 @@ update msg model =
                 newModel =
                     playerLogic model playerSelectedAttack
             in
-            update MsgMachineAttack newModel
+            update GenerateRandomNumber newModel
 
         MsgRestart ->
             --reenviar al selector
             ( model, Cmd.none )
 
         GenerateRandomNumber ->
-            ( model, generateRandomNumber )
+            ( model, generateRandomNumber () )
 
         GotRandomNumber number ->
             let
                 _ =
                     Debug.log ("The number is: " ++ String.fromInt number)
+
+                newModel =
+                    { model | randomNumber = number }
             in
-            ( { model | randomNumber = number }, Cmd.none )
+            update MsgMachineAttack newModel
 
 
 subscriptions : Model -> Sub Msg
@@ -213,7 +225,7 @@ subscriptions model =
 --Ports
 
 
-port generateRandomNumber : Cmd msg
+port generateRandomNumber : () -> Cmd msg
 
 
 port gotRandomNumber : (Int -> msg) -> Sub msg
@@ -356,10 +368,6 @@ getFirstAttack model =
 
 
 --give an opponent
---TODO implement the random import
-
-
-port generateRandomNumber : Int -> Cmd msg
 
 
 randomNumber : Int -> Int
