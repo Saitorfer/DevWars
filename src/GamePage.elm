@@ -1,4 +1,4 @@
-module GamePage exposing (..)
+port module GamePage exposing (..)
 
 import Html exposing (button, div, img, text)
 import Html.Attributes exposing (alt, class, src)
@@ -26,6 +26,7 @@ type alias Model =
     , machine : Player
     , round : Int
     , winner : Maybe String
+    , randomNumber : Int
     }
 
 
@@ -34,7 +35,8 @@ type Msg
     | MsgPlayerAttack String
     | MsgMachineAttack
     | MsgRestart
-    | MsgInitGame
+    | GenerateRandomNumber
+    | GotRandomNumber Int
 
 
 initModel : Model
@@ -43,6 +45,7 @@ initModel =
     , machine = { language = "", attackList = [], hp = 0, languageNumber = 1, image = "" }
     , round = 1
     , winner = Nothing
+    , randomNumber = 0
     }
 
 
@@ -52,6 +55,7 @@ initGame model language =
     , machine = initPlayers model (randomNumber language)
     , round = 1
     , winner = Nothing
+    , randomNumber = 0
     }
 
 
@@ -189,13 +193,30 @@ update msg model =
             --reenviar al selector
             ( model, Cmd.none )
 
-        MsgInitGame ->
-            ( model, Cmd.none )
+        GenerateRandomNumber ->
+            ( model, generateRandomNumber )
+
+        GotRandomNumber number ->
+            let
+                _ =
+                    Debug.log ("The number is: " ++ String.fromInt number)
+            in
+            ( { model | randomNumber = number }, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
+subscriptions model =
+    gotRandomNumber GotRandomNumber
+
+
+
+--Ports
+
+
+port generateRandomNumber : Cmd msg
+
+
+port gotRandomNumber : (Int -> msg) -> Sub msg
 
 
 initGameCmd : Model -> Cmd Msg
@@ -299,7 +320,28 @@ machineLogic model =
 
 machineAttack : Model -> Attack
 machineAttack model =
-    getFirstAttack model
+    --getFirstAttack model
+    let
+        --the random Function give us a msg, not an Int so we need to traduce it
+        randomNumberAttack =
+            model.randomNumber
+
+        attackList =
+            model.machine.attackList
+
+        _ =
+            Debug.log ("The random attack is number: " ++ String.fromInt randomNumberAttack)
+    in
+    case List.drop randomNumberAttack attackList |> List.head of
+        Just attack ->
+            attack
+
+        Nothing ->
+            { name = "Punch", damage = 5 }
+
+
+
+--not used now
 
 
 getFirstAttack : Model -> Attack
@@ -315,6 +357,9 @@ getFirstAttack model =
 
 --give an opponent
 --TODO implement the random import
+
+
+port generateRandomNumber : Int -> Cmd msg
 
 
 randomNumber : Int -> Int

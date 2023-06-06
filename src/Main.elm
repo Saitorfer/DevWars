@@ -83,7 +83,7 @@ viewPage model =
     let
         --un console.log
         _ =
-            Debug.log "modelo actual" model
+            Debug.log "Current Model: " model
     in
     case Router.fromUrl model.url of
         Just Router.RouteSelectorPage ->
@@ -128,8 +128,8 @@ update msg model =
                     case Router.fromUrl url of
                         Just Router.RouteGamePage ->
                             let
-                                log1 =
-                                    Debug.log "Nutrias" model
+                                _ =
+                                    Debug.log "Model send: " model
 
                                 language =
                                     converterLanguage <| model.modelSelectorPage.selectedLanguage
