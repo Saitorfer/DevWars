@@ -5,6 +5,7 @@ import Browser.Navigation
 import GamePage
 import Html
 import Html.Attributes exposing (class)
+import Html.Events exposing (onClick)
 import Router
 import SelectorPage exposing (Msg(..))
 import Url
@@ -15,6 +16,7 @@ type Msg
     | MsgUrlRequested Browser.UrlRequest
     | MsgSelectorPage SelectorPage.Msg
     | MsgGamePage GamePage.Msg
+    | MsgRestart
 
 
 type alias Model =
@@ -66,10 +68,10 @@ view model =
 --this header is fix
 
 
-viewHeader : Html.Html msg
+viewHeader : Html.Html Msg
 viewHeader =
     Html.div [ class "header" ]
-        [ Html.button [ class "header-buttons" ] [ Html.text "Restart Game" ]
+        [ Html.button [ class "header-buttons", onClick MsgRestart ] [ Html.text "Restart Game" ]
         , Html.div [ class "header-title" ] [ Html.text "DevWars" ]
         ]
 
@@ -168,6 +170,9 @@ update msg model =
             ( { model | modelGamePage = newGamePageModel }
             , Cmd.map MsgGamePage cmdGamePage
             )
+
+        MsgRestart ->
+            ( model, Browser.Navigation.pushUrl model.navigationKey (Router.asPath Router.RouteSelectorPage) )
 
 
 subscriptions : Model -> Sub Msg
