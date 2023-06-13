@@ -20,6 +20,7 @@ type alias Player =
     , attackList : List Attack
     , hp : Int
     , image : String
+    , lastAttack : String
     }
 
 
@@ -51,6 +52,7 @@ initModel navigationKey =
             , hp = 0
             , languageNumber = 1
             , image = ""
+            , lastAttack = ""
             }
     in
     { player = initPlayer
@@ -81,22 +83,22 @@ initPlayers : Model -> Int -> Player
 initPlayers _ language =
     case language of
         1 ->
-            { language = "java", attackList = javaAttacks, hp = 100, languageNumber = language, image = "images/java.png" }
+            { language = "java", attackList = javaAttacks, hp = 100, languageNumber = language, image = "images/java.png", lastAttack = "" }
 
         2 ->
-            { language = "typescript", attackList = tsAttacks, hp = 100, languageNumber = language, image = "images/typescript.png" }
+            { language = "typescript", attackList = tsAttacks, hp = 100, languageNumber = language, image = "images/typescript.png", lastAttack = "" }
 
         3 ->
-            { language = "kotlin", attackList = kotlinAttacks, hp = 100, languageNumber = language, image = "images/kotlin.png" }
+            { language = "kotlin", attackList = kotlinAttacks, hp = 100, languageNumber = language, image = "images/kotlin.png", lastAttack = "" }
 
         4 ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png" }
+            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png", lastAttack = "" }
 
         5 ->
-            { language = "c#", attackList = cAttacks, hp = 100, languageNumber = language, image = "images/c-sharp.png" }
+            { language = "c#", attackList = cAttacks, hp = 100, languageNumber = language, image = "images/c-sharp.png", lastAttack = "" }
 
         _ ->
-            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png" }
+            { language = "elm", attackList = elmAttacks, hp = 100, languageNumber = language, image = "images/elm.png", lastAttack = "" }
 
 
 view : Model -> Html.Html Msg
@@ -137,6 +139,7 @@ viewCombat player machine =
             , div [ class "image-container top-right-image" ]
                 [ img [ src machine.image, alt "Imagen 2" ] []
                 , hpText2
+                , text <| "The Enemy used: " ++ machine.lastAttack
                 ]
             ]
     in
@@ -320,7 +323,7 @@ takeDamage attack player =
 
 
 machineLogic : Model -> Model
-machineLogic model =
+machineLogic ({ machine } as model) =
     let
         --determine the attack
         attackUsed =
@@ -329,9 +332,12 @@ machineLogic model =
         --damage hp of the player
         newPlayerHp =
             takeDamage attackUsed model.player
+
+        newMachine =
+            { machine | lastAttack = attackUsed.name }
     in
     --update the model of the player
-    { model | player = newPlayerHp }
+    { model | player = newPlayerHp, machine = newMachine }
 
 
 machineAttack : Model -> Attack

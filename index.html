@@ -19,7 +19,7 @@
         return randomNumber;
       }
       app.ports.generateRandomNumber.subscribe(function () {
-         var randomNumber = generateRandomNumber();
+        var randomNumber = generateRandomNumber();
         app.ports.gotRandomNumber.send(randomNumber);
       });
     </script>
