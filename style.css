@@ -168,11 +168,6 @@ button.selected-button {
   max-width: 120px;
   max-height: 120px;
 }
-.showEnemyAttack{
-  font-size: 14px;
-  padding-left: 400px;
-  position: absolute;
-}
 
 /*Winner*/
 
