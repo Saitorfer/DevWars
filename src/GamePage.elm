@@ -30,6 +30,7 @@ type alias Model =
     , round : Int
     , winner : Maybe String
     , randomNumber : Int
+    , turn : Int
     , navigationKey : Browser.Navigation.Key
     }
 
@@ -60,6 +61,7 @@ initModel navigationKey =
     , round = 1
     , winner = Nothing
     , randomNumber = 0
+    , turn = 0
     , navigationKey = navigationKey
     }
 
@@ -71,6 +73,7 @@ initGame navigationKey model language =
     , round = 1
     , winner = Nothing
     , randomNumber = 0
+    , turn = 0
     , navigationKey = navigationKey
     }
 
@@ -109,7 +112,7 @@ view model =
                 viewWinner model
 
             Nothing ->
-                viewCombat model.player model.machine
+                viewCombat model
         ]
 
 
@@ -122,31 +125,35 @@ viewAttackButton attack =
     button [ class "buttonGame", onClick (MsgPlayerAttack attack.name) ] [ text attack.name ]
 
 
-viewCombat : Player -> Player -> Html.Html Msg
-viewCombat player machine =
+viewCombat : Model -> Html.Html Msg
+viewCombat model =
     let
         hpText1 =
-            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt player.hp ]
+            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt model.player.hp ]
 
         hpText2 =
-            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt machine.hp ]
+            div [ class "hp-text" ] [ text <| "HP: " ++ String.fromInt model.machine.hp ]
 
         combatElements =
             [ div [ class "image-container bottom-left-image" ]
-                [ img [ src player.image, alt "Imagen 1" ] []
+                [ img [ src model.player.image, alt "Imagen 1" ] []
                 , hpText1
                 ]
             , div [ class "image-container top-right-image" ]
-                [ img [ src machine.image, alt "Imagen 2" ] []
+                [ img [ src model.machine.image, alt "Imagen 2" ] []
                 , hpText2
-                , text <| "The Enemy used: " ++ machine.lastAttack
+                , if model.turn /= 0 then
+                    text <| "The Enemy used: " ++ model.machine.lastAttack
+
+                  else
+                    text ""
                 ]
             ]
     in
     div [ class "combat-container" ]
         (combatElements
             ++ [ div [ class "buttonGame-container" ]
-                    (List.map viewAttackButton player.attackList)
+                    (List.map viewAttackButton model.player.attackList)
                ]
         )
 
@@ -335,9 +342,12 @@ machineLogic ({ machine } as model) =
 
         newMachine =
             { machine | lastAttack = attackUsed.name }
+
+        nextTurn =
+            model.turn + 1
     in
     --update the model of the player
-    { model | player = newPlayerHp, machine = newMachine }
+    { model | player = newPlayerHp, turn = nextTurn, machine = newMachine }
 
 
 machineAttack : Model -> Attack
