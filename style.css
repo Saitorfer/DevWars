@@ -37,10 +37,10 @@
 .footer {
   background-color: #001233;
   padding: 20px;
+  left: -20px ;
   text-align: center;
   color: #fff;
   position: fixed;
-  left: 0;
   bottom: 0;
   width: 100%;
 }
