@@ -7,6 +7,8 @@ After that, you can select an attack, and the first one to reduce the opponent's
 
 You play against a machine, and the machine will randomly select one of its attacks and use it against you.
 
+<img width="1489" alt="image" src="https://github.com/Saitorfer/DevWars/assets/39096665/bdb1f372-d9be-4b0a-bd5f-755c9ca5f4b9">
+
 This little project is a practice to prove to myself that I know how to use Elm's navigation and ports. 
 
 How can I play?
